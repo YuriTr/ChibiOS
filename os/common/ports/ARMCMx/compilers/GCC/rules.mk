@@ -204,6 +204,8 @@ ifeq ($(USE_VERBOSE_COMPILE),yes)
 	@echo
 	$(CC) -c $(CFLAGS) $(AOPT) -I. $(IINCDIR) $< -o $@
 else
+	@echo Preprocessing $(<F)
+	@$(CC) -c $(CFLAGS) $(AOPT) -E -I. $(IINCDIR) $< -o $(*F)
 	@echo Compiling $(<F)
 	@$(CC) -c $(CFLAGS) $(AOPT) -I. $(IINCDIR) $< -o $@
 endif
@@ -211,8 +213,11 @@ endif
 $(TCOBJS) : $(OBJDIR)/%.o : %.c Makefile
 ifeq ($(USE_VERBOSE_COMPILE),yes)
 	@echo
+	$(CC) -c $(CFLAGS) $(TOPT) -E -I. $(IINCDIR) $< -o $(@D)/$(*F)
 	$(CC) -c $(CFLAGS) $(TOPT) -I. $(IINCDIR) $< -o $@
 else
+	@echo Preprocessing $(<F)
+	@$(CC) -c $(CFLAGS) $(TOPT) -E -I. $(IINCDIR) $< -o $(@D)/$(*F)
 	@echo Compiling $(<F)
 	@$(CC) -c $(CFLAGS) $(TOPT) -I. $(IINCDIR) $< -o $@
 endif
